@@ -68,3 +68,8 @@ C:\Users\Ramal\Desktop\Desktop\FrontToBack\FrontToBack\bin\Debug\net5.0\runtimes
 C:\Users\Ramal\Desktop\Desktop\FrontToBack\FrontToBack\bin\Debug\net5.0\Data.dll
 C:\Users\Ramal\Desktop\Desktop\FrontToBack\FrontToBack\bin\Debug\net5.0\Data.pdb
 C:\Users\Ramal\Desktop\Desktop\FrontToBack\FrontToBack\obj\Debug\net5.0\Razor\Views\_ViewImports.cshtml.g.cs
+C:\Users\Ramal\Desktop\Desktop\FrontToBack\FrontToBack\obj\Debug\net5.0\Razor\Areas\Admin\Views\Dashboard\Index.cshtml.g.cs
+C:\Users\Ramal\Desktop\Desktop\FrontToBack\FrontToBack\obj\Debug\net5.0\Razor\Areas\Admin\Views\_ViewStart.cshtml.g.cs
+C:\Users\Ramal\Desktop\Desktop\FrontToBack\FrontToBack\obj\Debug\net5.0\Razor\Areas\Admin\Views\Shared\_AdminLayout.cshtml.g.cs
+C:\Users\Ramal\Desktop\Desktop\FrontToBack\FrontToBack\obj\Debug\net5.0\Razor\Areas\Admin\Views\Category\Index.cshtml.g.cs
+C:\Users\Ramal\Desktop\Desktop\FrontToBack\FrontToBack\obj\Debug\net5.0\Razor\Areas\Admin\Views\_ViewImports.cshtml.g.cs

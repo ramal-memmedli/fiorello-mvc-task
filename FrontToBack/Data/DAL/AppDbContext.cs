@@ -13,7 +13,8 @@ namespace Data.DAL
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options){}
 
         public DbSet<Slider> Sliders { get; set; }
-        public DbSet<Card> Cards { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Product> Products { get; set; }
         public DbSet<About> About { get; set; }
         public DbSet<AboutListItem> AboutListItems { get; set; }
         public DbSet<Expert> Experts { get; set; }

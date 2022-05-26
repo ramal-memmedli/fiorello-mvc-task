@@ -10,5 +10,6 @@ namespace Data.Models
     {
         public string Content { get; set; }
         public int AboutId { get; set; }
+        public About About { get; set; }
     }
 }
