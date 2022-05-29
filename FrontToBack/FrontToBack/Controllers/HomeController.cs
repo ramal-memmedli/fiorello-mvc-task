@@ -25,6 +25,8 @@ namespace FrontToBack.Controllers
             homeVM.Products = await _context.Products
                 .Where(n => !n.IsDeleted)
                 .Include(n => n.Category)
+                .Include(n => n.ProductImages)
+                .ThenInclude(n => n.Image)
                 .Take(8).OrderByDescending(n => n.CreatedDate).ToListAsync();
             homeVM.Categories = await _context.Categories.Where(n => !n.IsDeleted).ToListAsync();
             homeVM.About = await _context.About.Where(n => !n.IsDeleted).FirstOrDefaultAsync();

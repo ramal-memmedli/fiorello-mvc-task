@@ -73,3 +73,5 @@ C:\Users\Ramal\Desktop\Desktop\FrontToBack\FrontToBack\obj\Debug\net5.0\Razor\Ar
 C:\Users\Ramal\Desktop\Desktop\FrontToBack\FrontToBack\obj\Debug\net5.0\Razor\Areas\Admin\Views\Shared\_AdminLayout.cshtml.g.cs
 C:\Users\Ramal\Desktop\Desktop\FrontToBack\FrontToBack\obj\Debug\net5.0\Razor\Areas\Admin\Views\Category\Index.cshtml.g.cs
 C:\Users\Ramal\Desktop\Desktop\FrontToBack\FrontToBack\obj\Debug\net5.0\Razor\Areas\Admin\Views\_ViewImports.cshtml.g.cs
+C:\Users\Ramal\Desktop\Desktop\FrontToBack\FrontToBack\obj\Debug\net5.0\Razor\Views\Products\Index.cshtml.g.cs
+C:\Users\Ramal\Desktop\Desktop\FrontToBack\FrontToBack\obj\Debug\net5.0\Razor\Views\Shared\_ProductPartial.cshtml.g.cs

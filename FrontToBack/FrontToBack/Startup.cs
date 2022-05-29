@@ -51,8 +51,8 @@ namespace FrontToBack
             {
                 endpoints.MapControllerRoute
                 (
-                    name: "default",
-                    pattern: "{area}/{controller=dashboard}/{action=index}/{id?}"
+                    name: "Areas",
+                    pattern: "{area:exists}/{controller=dashboard}/{action=index}/{id?}"
                 );
 
                 endpoints.MapControllerRoute

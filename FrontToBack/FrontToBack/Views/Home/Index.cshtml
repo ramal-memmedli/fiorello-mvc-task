@@ -4,9 +4,9 @@
 
         <section id="slider">
             <div class="owl-carousel slider">
-                @for (int i = 0; i < Model.Sliders.Count; i++)
+                @foreach (Slider slider in Model.Sliders)
                 {
-                    <div> <img src="~/assets/img/@Model.Sliders[i].ImageUrl" alt=""> </div>
+                    <div> <img src="~/assets/img/@slider.ImageUrl" alt=""> </div>
                 }
             </div>
             <div class="container context pl-lg-5 ml-lg-3">
@@ -40,19 +40,19 @@
                                 <i class="fas fa-caret-down"></i>
                                 <ul class="category list-unstyled" style="display: none;">
                                     <li><a href="" data-id="all">All</a></li>
-                                    @for (int i = 0; i < Model.Categories.Count; i++)
+                                    @foreach (Category category in Model.Categories)
                                     {
-                                        <li><a href="" data-id="@Model.Categories[i].Name.ToLower()">@Model.Categories[i].Name</a></li>
+                                        <li><a href="" data-id="@category.Name.ToLower()">@category.Name</a></li>
                                     }
                                 </ul>
                             </li>
                         </ul>
                         <ul class="category d-none d-md-flex list-unstyled">
                             <li><a href="" data-id="all">All</a></li>
-                            @for (int i = 0; i < Model.Categories.Count; i++)
-                                    {
-                                        <li><a href="" data-id="@Model.Categories[i].Name.ToLower()">@Model.Categories[i].Name</a></li>
-                                    }
+                            @foreach (Category category in Model.Categories)
+                            {
+                                <li><a href="" data-id="@category.Name.ToLower()">@category.Name</a></li>
+                            }
                         </ul>
                         <ul class="list-unstyled">
                             <li>
@@ -63,25 +63,30 @@
                     </div>
                 </div>
                 <div class="row">
-                    @for (int i = 0; i < Model.Products.Count; i++)
+                    @foreach (var product in Model.Products)
                     {
-                            <div class="col-sm-6 col-md-4 col-lg-3 mt-3">
-                                <div class="product-item text-center" data-id="@Model.Products[i].Category.Name.ToLower()">
+                        <div class="col-sm-6 col-md-4 col-lg-3 mt-3">
+                                <div class="product-item text-center" data-id="@product.Category.Name.ToLower()">
                                     <div class="img">
                                         <a href="">
-                                            <img src="~/assets/@Model.Products[i].ImageUrl" class="img-fluid" alt="">
+                                            <img src="~/assets/img/@product.ProductImages?[0].Image.Name" class="img-fluid" alt="">
                                         </a>
                                     </div>
                                     <div class="title mt-3">
-                                        <h6>@Model.Products[i].Title</h6>
+                                        <h6>@product.Title</h6>
                                     </div>
                                     <div class="price">
                                         <span class="text-black-50">Add to cart</span>
-                                        <span class="text-black-50">$@Model.Products[i].Price</span>
+                                        <span class="text-black-50">$@product.Price</span>
                                     </div>
                                 </div>
-                            </div>             
+                            </div>  
                     }
+                </div>
+                <div class="row justify-content-center my-5">
+                    <div class="col-lg-6 d-flex justify-content-center">
+                        <a class="btn btn-outline" asp-area="" asp-controller="products" asp-action="index">View more</a>
+                    </div>
                 </div>
             </div>
         </section>
@@ -135,16 +140,16 @@
                     </div>
                 </div>
                 <div class="row pb-5">
-                    @for (int i = 0; i < Model.Experts.Count; i++)
+                    @foreach (Expert expert in Model.Experts)
                     {
-                            <div class="col-md-6 col-lg-3">
+                        <div class="col-md-6 col-lg-3">
                                 <div class="item text-center">
                                     <div class="img">
-                                        <img src="~/assets/img/@Model.Experts[i].ImageUrl" class="img-fluid rounded-circle" alt="">
+                                        <img src="~/assets/img/@expert.ImageUrl" class="img-fluid rounded-circle" alt="">
                                     </div>
                                     <div class="text mt-3">
-                                        <h6>@Model.Experts[i].FullName</h6>
-                                        <p class="text-black-50">@Model.Experts[i].Profession</p>
+                                        <h6>@expert.FullName</h6>
+                                        <p class="text-black-50">@expert.Profession</p>
                                     </div>
                                 </div>
                             </div>
@@ -190,19 +195,19 @@
                     </div>
                 </div>
                 <div class="row pb-5">
-                    @for (int i = 0; i < Model.BlogCards.Count; i++)
+                    @foreach (BlogCard blogCard in Model.BlogCards)
                     {
-                            <div class="col-md-6 col-lg-4">
+                        <div class="col-md-6 col-lg-4">
                                 <div class="item">
                                     <div class="img position-relative">
-                                        <img src="~/assets/img/@Model.BlogCards[i].ImageUrl" class="img-fluid" alt="">
+                                        <img src="~/assets/img/@blogCard.ImageUrl" class="img-fluid" alt="">
                                         <div class="date rounded bg-light position-absolute py-1 px-2">
-                                            <span>@Model.BlogCards[i].CreatedDate</span>
+                                            <span>@blogCard.CreatedDate</span>
                                         </div>
                                     </div>
                                     <div class="text mt-3 text-center px-5">
-                                        <h5>@Model.BlogCards[i].Title</h5>
-                                        <p class="text-black-50">@Model.BlogCards[i].Description</p>
+                                        <h5>@blogCard.Title</h5>
+                                        <p class="text-black-50">@blogCard.Description</p>
                                     </div>
                                 </div>
                             </div>
@@ -221,19 +226,19 @@
                 <div class="row py-5 justify-content-center">
                     <div class="col-md-8 col-xl-6">
                         <div class="owl-carousel say">
-                            @for (int i = 0; i < Model.Testimonials.Count; i++)
+                            @foreach (Testimonial testimonial in Model.Testimonials)
                             {
-                                    <div>
+                                <div>
                                         <div class="item text-center">
                                             <div class="img d-flex justify-content-center">
-                                                <img src="~/assets/img/@Model.Testimonials[i].ImageUrl" alt="">
+                                                <img src="~/assets/img/@testimonial.ImageUrl" alt="">
                                             </div>
                                             <div class="text text-muted pt-3 pb-5">
-                                                <i>@Model.Testimonials[i].Paragraph</i>
+                                                <i>@testimonial.Paragraph</i>
                                             </div>
                                             <div class="author">
-                                                <h6>@Model.Testimonials[i].FullName</h6>
-                                                <p class="text-black-50">@Model.Testimonials[i].Profession</p>
+                                                <h6>@testimonial.FullName</h6>
+                                                <p class="text-black-50">@testimonial.Profession</p>
                                             </div>
                                         </div>
                                     </div>
@@ -250,9 +255,9 @@
 
         <section id="instagram">
             <div class="owl-carousel instagram">
-                @for (int i = 0; i < Model.InstagramPosts.Count; i++)
+                @foreach (InstagramPost instagramPost in Model.InstagramPosts)
                 {
-                        <div><img src="~/assets/img/@Model.InstagramPosts[i].ImageUrl" class="img-fluid" alt=""></div>
+                    <div><img src="~/assets/img/@instagramPost.ImageUrl" class="img-fluid" alt=""></div>
                 }
             </div>
             <div class="hastag bg-light text-muted py-2 px-3">

@@ -21,5 +21,7 @@ namespace Data.DAL
         public DbSet<BlogCard> BlogCards { get; set; }
         public DbSet<Testimonial> Testimonials { get; set; }
         public DbSet<InstagramPost> InstagramPosts { get; set; }
+        public DbSet<Image> Images { get; set; }
+        public DbSet<ProductImages> ProductImages { get; set; }
     }
 }

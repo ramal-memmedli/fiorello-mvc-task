@@ -162,6 +162,21 @@ namespace FrontToBack.Migrations
                     b.ToTable("Experts");
                 });
 
+            modelBuilder.Entity("Data.Models.Image", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Images");
+                });
+
             modelBuilder.Entity("Data.Models.InstagramPost", b =>
                 {
                     b.Property<int>("Id")
@@ -199,9 +214,6 @@ namespace FrontToBack.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -219,6 +231,28 @@ namespace FrontToBack.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("Data.Models.ProductImages", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ImageId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ImageId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductImages");
                 });
 
             modelBuilder.Entity("Data.Models.Slider", b =>
@@ -300,6 +334,25 @@ namespace FrontToBack.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("Data.Models.ProductImages", b =>
+                {
+                    b.HasOne("Data.Models.Image", "Image")
+                        .WithMany("ProductImages")
+                        .HasForeignKey("ImageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Data.Models.Product", "Product")
+                        .WithMany("ProductImages")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Image");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("Data.Models.About", b =>
                 {
                     b.Navigation("AboutListItems");
@@ -308,6 +361,16 @@ namespace FrontToBack.Migrations
             modelBuilder.Entity("Data.Models.Category", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("Data.Models.Image", b =>
+                {
+                    b.Navigation("ProductImages");
+                });
+
+            modelBuilder.Entity("Data.Models.Product", b =>
+                {
+                    b.Navigation("ProductImages");
                 });
 #pragma warning restore 612, 618
         }
