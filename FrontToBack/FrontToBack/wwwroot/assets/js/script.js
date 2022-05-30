@@ -10,7 +10,7 @@ $(document).ready(function () {
         $(this).parent().removeClass("active");
 
     })
-    $(document).on('click', '#mobile-navbar-show', function () {
+    $(document).on('click', '#mobile-navbar-show', function () { 
         $('.mobile-navbar').addClass("active");
 
     })
