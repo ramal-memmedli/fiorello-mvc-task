@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace FrontToBack.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class CategoryController : Controller
     {
         private readonly AppDbContext _context;

@@ -66,37 +66,6 @@ $(document).ready(function () {
         }
     })
 
-    if (window.location.pathname.includes("/products")) {
-        let loadMoreButton = document.getElementById("loadMoreBtn");
-        let products = document.getElementById("productsLoadMoreSection");
-        let productItemsForCalcCount = document.getElementsByClassName("product-item-for-calc-count");
-
-        let allProductCountResult;
-
-        async function getAllProductCount() {
-            let allProductCountResp = await fetch(`/products/allproductcount`);
-            let allProductCount = await allProductCountResp.json();
-            allProductCountResult = allProductCount;
-        }
-
-        getAllProductCount();
-
-        let fetchedProductCount;
-
-        loadMoreButton.addEventListener("click", async function () {
-            let response = await fetch(`/products/loadmore/${productItemsForCalcCount.length}`);
-            let data = await response.text();
-            fetchedProductCount = (data.match(/product-item-for-calc-count/g) || []).length
-
-            if (!(allProductCountResult > (productItemsForCalcCount.length + fetchedProductCount))) {
-                if (typeof fetchedProductCount === "number") {
-                    loadMoreButton.remove();
-                }
-            }
-
-            products.innerHTML += data;
-        });
-    }
 
     // ACCORDION 
 
@@ -180,3 +149,50 @@ $(document).ready(function () {
         );
       });
 })
+
+
+if (window.location.pathname.includes("/products")) {
+    let loadMoreButton = document.getElementById("loadMoreBtn");
+    let products = document.getElementById("productsLoadMoreSection");
+    let productItemsForCalcCount = document.getElementsByClassName("product-item-for-calc-count");
+
+    let allProductCountResult;
+
+    async function getAllProductCount() {
+        let allProductCountResp = await fetch(`/products/allproductcount`);
+        let allProductCount = await allProductCountResp.json();
+        allProductCountResult = allProductCount;
+    }
+
+    getAllProductCount();
+
+    let fetchedProductCount;
+
+    loadMoreButton.addEventListener("click", async function () {
+        let response = await fetch(`/products/loadmore/${productItemsForCalcCount.length}`);
+        let data = await response.text();
+        fetchedProductCount = (data.match(/product-item-for-calc-count/g) || []).length
+
+        if (!(allProductCountResult > (productItemsForCalcCount.length + fetchedProductCount))) {
+            if (typeof fetchedProductCount === "number") {
+                loadMoreButton.remove();
+            }
+        }
+
+        products.innerHTML += data;
+    });
+}
+
+let addToBasketButtons = document.getElementsByClassName("add-to-basket");
+
+if (addToBasketButtons !== null) {
+    for (let addToBasketBtn of addToBasketButtons) {
+        addToBasketBtn.addEventListener("click", async function () {
+            let dataValue = this.getAttribute("data-value");
+            await fetch("/products/SetItemIntoBasket/" + dataValue);
+            let resp = await fetch("/products/GetItemsFromBasket/");
+            let data = await resp.json();
+            console.log(data);
+        });
+    }
+}

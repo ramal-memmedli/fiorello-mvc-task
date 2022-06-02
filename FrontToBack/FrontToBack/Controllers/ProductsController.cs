@@ -2,10 +2,12 @@
 using Data.Models;
 using FrontToBack.ViewModel;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace FrontToBack.Controllers
 {
@@ -52,6 +54,64 @@ namespace FrontToBack.Controllers
             int productCount = await _context.Products.Where(n => !n.IsDeleted).CountAsync();
 
             return Json(productCount);
+        }
+
+        public IActionResult SetItemIntoBasket(int id)
+        {
+            List<BasketItemVM> basketItems;
+            string cookieString = Request.Cookies["basket"];
+
+            if(string.IsNullOrEmpty(cookieString))
+            {
+                basketItems = new List<BasketItemVM>();
+            }
+            else
+            {
+                basketItems = JsonSerializer.Deserialize<List<BasketItemVM>>(cookieString);
+            }
+
+            BasketItemVM basketItem = basketItems.Where(n => n.Id == id).FirstOrDefault();
+
+            if(basketItem is null)
+            {
+                basketItem = new BasketItemVM();
+                basketItem.Id = id;
+                basketItem.Count = 1;
+                basketItems.Add(basketItem);
+            }else
+            {
+                basketItem.Count++;
+            }
+
+            cookieString = JsonSerializer.Serialize(basketItems);
+
+            Response.Cookies.Append("basket", cookieString);
+
+            return Json(new
+            {
+                status = 200,
+                basket = basketItems
+            });
+        }
+
+        public IActionResult GetItemsFromBasket()
+        {
+            List<BasketItemVM> basketItems;
+            string cookieString = Request.Cookies["basket"];
+
+            if(string.IsNullOrEmpty(cookieString))
+            {
+                basketItems= new List<BasketItemVM>();
+            }else
+            {
+                basketItems = JsonSerializer.Deserialize<List<BasketItemVM>>(cookieString);
+            }
+
+            return Json(new
+            {
+                status = 200,
+                basket = basketItems
+            });
         }
     }
 }

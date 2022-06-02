@@ -1,21 +1,25 @@
 ﻿using Data.DAL;
 using Data.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace FrontToBack.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class ProductController : Controller
     {
         private readonly AppDbContext _context;
-
-        public ProductController(AppDbContext context)
+        private readonly IWebHostEnvironment _environment;
+        public ProductController(AppDbContext context, IWebHostEnvironment environment)
         {
             _context = context;
+            _environment = environment;
         }
 
         public async Task<IActionResult> Index()
@@ -57,14 +61,49 @@ namespace FrontToBack.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Product product)
         {
-            Image image = await _context.Images.Where(n => n.Name == product.ImageUrl).FirstOrDefaultAsync();
-            if(image is null)
+            ViewData["Categories"] = await GetCategories();
+
+            if (product.ImageFile is null)
             {
-                return NotFound();
+                ModelState.AddModelError("ImageFile", "Image field is required for submit!");
+                return View(product);
             }
+
+            if(!product.ImageFile.ContentType.Contains("image/"))
+            {
+                ModelState.AddModelError("ImageFile", "File must be an image only!");
+                return View(product);
+            }
+
+            decimal size = (decimal) product.ImageFile.Length / 1024 / 1024;
+
+            if(size > 3)
+            {
+                ModelState.AddModelError("ImageFile", "File must be under 3MB");
+                return View(product);
+            }
+
+            string imageName = Guid.NewGuid().ToString() + product.ImageFile.FileName;
+
+            if (imageName.Length >= 254)
+            {
+                imageName = imageName.Substring(imageName.Length - 254, 254);
+            }
+
+            string path = Path.Combine(_environment.WebRootPath, "assets", "uploads", "products", imageName);
+
+            using(FileStream fileStream = new FileStream(path, FileMode.Create))
+            {
+                await product.ImageFile.CopyToAsync(fileStream);
+            }
+
+            Image image = new Image();
+
+            image.Name = imageName;
 
             product.CreatedDate = DateTime.Now;
 
+            await _context.Images.AddAsync(image);
             await _context.Products.AddAsync(product);
             await _context.SaveChangesAsync();
 
@@ -101,6 +140,8 @@ namespace FrontToBack.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update(int id, Product product)
         {
+            ViewData["Categories"] = await GetCategories();
+
             Product dbProduct = await _context.Products
                                     .Where(n => !n.IsDeleted && n.Id == id)
                                     .Include(n => n.ProductImages)
@@ -113,21 +154,66 @@ namespace FrontToBack.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            ProductImages productImages = await _context.ProductImages.Where(n => n.ProductId == dbProduct.Id).FirstOrDefaultAsync();
-            Image image = await _context.Images.Where(n => n.Name == product.ImageUrl).FirstOrDefaultAsync();
-
-            if (productImages is null || image is null)
+            if(product.ImageFile != null)
             {
-                return NotFound();
+                decimal size = (decimal)product.ImageFile.Length / 1024 / 1024;
+
+                if (!product.ImageFile.ContentType.Contains("image/") ){
+                    ModelState.AddModelError("ImageFile", "File must be an image only!");
+                    return View(product);
+                }
+
+                if (size > 3)
+                {
+                    ModelState.AddModelError("ImageFile", "File must be under 3MB!");
+                    return View(product);
+                }
+
+                string fileName = Guid.NewGuid().ToString() + product.ImageFile.FileName;
+
+                
+
+                if(fileName.Length >= 254)
+                {
+                    fileName = fileName.Substring(fileName.Length - 254, 254);
+                }
+
+                string path = Path.Combine(_environment.WebRootPath, "assets", "uploads", "products", fileName);
+
+                using (FileStream fileStream = new FileStream(path, FileMode.Create))
+                {
+                    await product.ImageFile.CopyToAsync(fileStream);
+                }
+
+                Image image = new Image();
+                image.Name = fileName;
+
+                await _context.Images.AddAsync(image);
+                await _context.SaveChangesAsync();
+
+                ProductImages productImages = await _context.ProductImages.Where(n => n.ProductId == dbProduct.Id).FirstOrDefaultAsync();
+
+                Image dbImage = await _context.Images.Where(n => n.Id == productImages.ImageId).FirstOrDefaultAsync();
+
+                _context.ProductImages.Remove(productImages);
+                await _context.SaveChangesAsync();
+                _context.Images.Remove(dbImage);
+
+                ProductImages newProductImages = new ProductImages();
+
+                newProductImages.ImageId = image.Id;
+                newProductImages.ProductId = dbProduct.Id;
+
+                await _context.ProductImages.AddAsync(newProductImages);
+                await _context.SaveChangesAsync();
             }
 
-            productImages.ImageId = image.Id;
-            dbProduct.CategoryId = product.CategoryId;
+        
+            dbProduct.CategoryId = product.CategoryId == 0 ? dbProduct.CategoryId : product.CategoryId;
             dbProduct.Title = product.Title;
             dbProduct.Price = product.Price;
 
             _context.Products.Update(dbProduct);
-            _context.ProductImages.Update(productImages);
             await _context.SaveChangesAsync();
 
             return RedirectToAction(actionName: nameof(Index), controllerName: nameof(Product));

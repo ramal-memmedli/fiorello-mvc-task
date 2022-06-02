@@ -26,6 +26,11 @@ namespace FrontToBack
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSession(option =>
+            {
+                option.IdleTimeout = TimeSpan.FromDays(365);
+            });
+
             services.AddControllersWithViews();
 
             services.AddDbContext<AppDbContext>(options =>
@@ -43,6 +48,8 @@ namespace FrontToBack
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseSession();
+
             app.UseStaticFiles();
 
             app.UseRouting();
@@ -51,8 +58,8 @@ namespace FrontToBack
             {
                 endpoints.MapControllerRoute
                 (
-                    name: "Areas",
-                    pattern: "{area}/{controller=dashboard}/{action=index}/{id?}"
+                    name: "Admin",
+                    pattern: "{area:exists}/{controller=dashboard}/{action=index}/{id?}"
                 );
 
                 endpoints.MapControllerRoute
