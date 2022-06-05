@@ -23,5 +23,6 @@ namespace Data.DAL
         public DbSet<InstagramPost> InstagramPosts { get; set; }
         public DbSet<Image> Images { get; set; }
         public DbSet<ProductImages> ProductImages { get; set; }
+        public DbSet<Setting> Settings { get; set; }
     }
 }

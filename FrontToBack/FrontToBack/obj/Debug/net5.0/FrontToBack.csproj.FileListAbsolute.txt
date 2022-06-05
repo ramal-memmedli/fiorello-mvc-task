@@ -84,3 +84,12 @@ C:\Users\Ramal\Desktop\Desktop\FrontToBack\FrontToBack\obj\Debug\net5.0\Razor\Ar
 C:\Users\Ramal\Desktop\Desktop\FrontToBack\FrontToBack\obj\Debug\net5.0\Razor\Areas\Admin\Views\Product\Create.cshtml.g.cs
 C:\Users\Ramal\Desktop\Desktop\FrontToBack\FrontToBack\obj\Debug\net5.0\Razor\Areas\Admin\Views\Product\Update.cshtml.g.cs
 C:\Users\Ramal\Desktop\Desktop\FrontToBack\FrontToBack\obj\Debug\net5.0\Razor\Areas\Admin\Views\Product\Delete.cshtml.g.cs
+C:\Users\Ramal\Desktop\Desktop\FrontToBack\FrontToBack\obj\Debug\net5.0\Razor\Views\Shared\Components\Products\Default.cshtml.g.cs
+C:\Users\Ramal\Desktop\Desktop\FrontToBack\FrontToBack\bin\Debug\net5.0\Services.deps.json
+C:\Users\Ramal\Desktop\Desktop\FrontToBack\FrontToBack\bin\Debug\net5.0\Services.runtimeconfig.json
+C:\Users\Ramal\Desktop\Desktop\FrontToBack\FrontToBack\bin\Debug\net5.0\Services.runtimeconfig.dev.json
+C:\Users\Ramal\Desktop\Desktop\FrontToBack\FrontToBack\bin\Debug\net5.0\Services.exe
+C:\Users\Ramal\Desktop\Desktop\FrontToBack\FrontToBack\bin\Debug\net5.0\Services.dll
+C:\Users\Ramal\Desktop\Desktop\FrontToBack\FrontToBack\bin\Debug\net5.0\Services.pdb
+C:\Users\Ramal\Desktop\Desktop\FrontToBack\FrontToBack\obj\Debug\net5.0\Razor\Views\Shared\Components\Header\Default.cshtml.g.cs
+C:\Users\Ramal\Desktop\Desktop\FrontToBack\FrontToBack\obj\Debug\net5.0\Razor\Views\Shared\Components\Footer\Default.cshtml.g.cs

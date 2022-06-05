@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Services.Abstract;
+using Services.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +32,8 @@ namespace FrontToBack
             {
                 option.IdleTimeout = TimeSpan.FromDays(365);
             });
+
+            services.AddScoped<ISettingService, SettingService>();
 
             services.AddControllersWithViews();
 
